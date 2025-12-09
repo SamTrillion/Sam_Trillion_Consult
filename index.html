@@ -58,17 +58,26 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
+        /* Custom style for the inserted image */
+        .tin-showcase-image {
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
     </style>
     <script>
         // --- Gemini API Configuration ---
         const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=";
-        const API_KEY = ""; // This will be provided by the Canvas environment
+        // IMPORTANT: When hosting externally (e.g., GitHub Pages), you MUST insert your own API key here.
+        // Get your key from Google AI Studio.
+        const API_KEY = "AIzaSyBpAV7ri0_3fjMDz9zFXZRe2sHwFG0YDl0"; 
         
         // --- Core Application Logic ---
-        window.onload = function() {
+        document.addEventListener('DOMContentLoaded', function() {
             // 1. WhatsApp Link Setup
             const phoneNumber = '2349085006059'; 
-            const message = encodeURIComponent("Yes! I want to get my Nigerian TIN and Certificate instantly for N2000. I need the fast track service.");
+            const message = encodeURIComponent("Yes! I want to get my Nigerian TIN and Certificate instantly for N3000. I need the fast track service.");
             const whatsappLink = `https://wa.me/${phoneNumber}?text=${message}`;
             
             document.querySelectorAll('.whatsapp-link').forEach(button => {
@@ -77,11 +86,7 @@
 
             // 2. Event Listener for LLM feature
             document.getElementById('fetchRequirementsBtn').addEventListener('click', fetchTINRequirements);
-            
-            // 3. Initial Drawing of Illustration
-            drawIllustration();
-            window.addEventListener('resize', drawIllustration);
-        }
+        });
 
         // --- LLM Feature Logic ---
 
@@ -119,6 +124,12 @@
                 return;
             }
 
+            // Check if API key is provided
+            if (API_KEY.includes('PASTE YOUR GOOGLE AI STUDIO API KEY HERE') || API_KEY === '') {
+                 outputElement.innerHTML = '<p class="text-red-600 font-bold">Error: API Key Missing. Please edit index.html and insert your Google AI Studio API key for this feature to work on external hosting.</p>';
+                 return;
+            }
+
             // Set loading state
             button.disabled = true;
             button.innerHTML = '<div class="loader mr-2"></div> Fetching Advice...';
@@ -151,7 +162,7 @@
                     let sourcesHtml = '';
                     const groundingMetadata = candidate.groundingMetadata;
                     if (groundingMetadata && groundingMetadata.groundingAttributions) {
-                        const sources = groundingMetadata.groundingAttributions
+                        const sources = groundingMetadata.groundingAttributions 
                             .map(attribution => ({
                                 uri: attribution.web?.uri,
                                 title: attribution.web?.title,
@@ -175,7 +186,7 @@
                     // Replace simple list items (Markdown '*' or '-') with <li>, handling potential multi-line list items
                     formattedText = formattedText.split('\n').map(line => {
                         if (line.match(/^(\*|\-)\s/)) {
-                            return `<li>${line.substring(line.match(/^(\*|\-)\s/).index + line.match(/^(\*|\-)\s/)[0].length).trim()}</li>`;
+                            return `<li>${line.substring(line.match(/^(\*|\-)\s/)[0].length).trim()}</li>`;
                         }
                         return line;
                     }).join('\n');
@@ -227,48 +238,6 @@
                 button.innerHTML = '✨ Get Requirements Advice';
             }
         }
-
-
-        // --- Illustration Drawing Logic ---
-        function drawIllustration() {
-            const canvas = document.getElementById('phoneIllustration');
-            if (!canvas.getContext) return;
-            const ctx = canvas.getContext('2d');
-            const w = canvas.width;
-            const h = canvas.height;
-
-            // Clear previous drawing
-            ctx.clearRect(0, 0, w, h);
-
-            // Simple phone shape
-            ctx.fillStyle = '#fff';
-            ctx.strokeStyle = '#333';
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.roundRect(w * 0.25, 0, w * 0.5, h, 15);
-            ctx.fill();
-            ctx.stroke();
-
-            // Screen
-            ctx.fillStyle = '#0a3358';
-            ctx.beginPath();
-            ctx.roundRect(w * 0.28, h * 0.05, w * 0.44, h * 0.85, 10);
-            ctx.fill();
-
-            // TIN display bar (like on the flyer)
-            ctx.fillStyle = '#4ADF86'; // Bright green for the TIN bar
-            ctx.fillRect(w * 0.35, h * 0.3, w * 0.3, h * 0.05);
-            ctx.fillStyle = '#fff';
-            ctx.font = 'bold 10px Inter';
-            ctx.textAlign = 'center';
-            ctx.fillText('TIN', w * 0.5, h * 0.335);
-
-            // Placeholder lines
-            ctx.fillStyle = '#ccc';
-            ctx.fillRect(w * 0.35, h * 0.45, w * 0.3, 5);
-            ctx.fillRect(w * 0.35, h * 0.55, w * 0.2, 5);
-        }
-
     </script>
 </head>
 <body class="antialiased min-h-screen">
@@ -299,9 +268,14 @@
         <!-- Main Offer and Illustration Section -->
         <div class="md:flex md:items-center md:space-x-8 mb-12">
             
-            <!-- Illustration / Phone Mockup -->
+            <!-- Illustration / Phone Mockup REPLACED WITH UPLOADED IMAGE -->
             <div class="w-full md:w-1/2 flex justify-center mb-8 md:mb-0">
-                <canvas id="phoneIllustration" width="200" height="350" class="shadow-2xl rounded-xl"></canvas>
+                <!-- Using the filename of the uploaded image directly in the src attribute -->
+                <img 
+                    src="1765200317940.jpg"
+                    alt="A professional Nigerian lady pointing confidently at an Apple laptop screen displaying a sample TIN certificate."
+                    class="tin-showcase-image rounded-xl shadow-2xl"
+                >
             </div>
             
             <!-- Offer Box -->
@@ -311,7 +285,7 @@
                 
                 <div class="my-6 p-4 rounded-lg bg-primary text-white text-center">
                     <p class="text-xl font-semibold opacity-80">One-Time Fee:</p>
-                    <p class="text-5xl font-extrabold">₦2000</p>
+                    <p class="text-5xl font-extrabold">₦3000</p>
                 </div>
                 
                 <ul class="space-y-3 text-gray-700">
@@ -325,15 +299,15 @@
                     </li>
                     <li class="flex items-start">
                         <span class="text-primary font-bold text-xl mr-2 mt-0.5">&#10003;</span>
-                        <span><span class="font-bold text-primary">Account Compliance:</span> Ensure your bank account remains compliant with the new national tax policy.</span>
+                        <span><span class="font-bold text-primary">Verified & Ready to Use:</span> Your official, government-authenticated TIN and certificate are processed with urgency and ready for immediate deployment in all your banking and business needs.</span>
                     </li>
                 </ul>
                 
                 <!-- Primary Desktop CTA Button -->
                 <a href="#" class="whatsapp-link mt-8 w-full hidden md:flex items-center justify-center space-x-2 bg-[#25D366] hover:bg-primary text-white font-extrabold py-4 rounded-xl text-xl shadow-lg hover:shadow-xl transition duration-300">
                     <!-- WhatsApp Icon (inline SVG) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 0C6.113 0 1.258 4.855 1.258 10.743c0 1.884.498 3.738 1.455 5.372l-1.63 4.97c-.053.161.026.335.187.388.049.017.1.025.15.025.111 0 .216-.046.284-.127l5.053-3.134c1.558.835 3.32 1.272 5.092 1.272 5.888 0 10.743-4.855 10.743-10.743C22.744 4.855 17.889 0 12.001 0zM17.476 15.051c-.12.196-.341.385-.595.454-.158.044-.337.07-.533.07-.179 0-.358-.024-.528-.063-.099-.023-.195-.06-.285-.11-1.306-.583-2.607-1.34-3.874-2.273-.205-.15-.401-.31-.588-.479-.115-.107-.22-.218-.316-.334-.143-.166-.277-.34-.397-.521-.13-.197-.245-.407-.345-.632-.122-.276-.226-.576-.307-.899-.088-.352-.132-.712-.132-1.077 0-.365.044-.725.132-1.077.081-.323.185-.623.307-.899.1-.225.215-.435.345-.632.12-.181.254-.355.397-.521.096-.116.201-.227.316-.334.187-.169.383-.329.588-.479 1.267-.933 2.568-1.69 3.874-2.273.105-.046.22-.083.372-.112.068-.013.137-.02.206-.02.227 0 .454.048.67.144.057.026.108.066.132.128.093.242.14.498.14.757 0 .26-.047.516-.14.757z"/></svg>
-                    <span>Click Here to Chat on WhatsApp & Start Now</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 0C6.113 0 1.258 4.855 1.258 10.743c0 1.884.498 3.738 1.455 5.372l-1.63 4.97c-.053.161.026.335.187.388.049.017.1.025.15.025.111 0 .216-.046.284-.127l5.053-3.134c1.558.835 3.32 1.272 5.092 1.272 5.888 0 10.743-4.855 10.743-10.743C22.744 4.855 17.889 0 12.001 0zm4.512 14.128c-.024.062-.075.102-.132.128-.216.096-.443.144-.67.144-.069 0-.138-.007-.206-.02-.152-.029-.267-.066-.372-.112-1.306-.583-2.607-1.34-3.874-2.273-.205-.15-.401-.31-.588-.479-.115-.107-.22-.218-.316-.334-.143-.166-.277-.34-.397-.521-.13-.197-.245-.407-.345-.632-.122-.276-.226-.576-.307-.899-.088-.352-.132-.712-.132-1.077 0-.365.044-.725.132-1.077.081-.323.185-.623.307-.899.1-.225.215-.435.345-.632.12-.181.254-.355.397-.521.096-.116.201-.227.316-.334.187-.169.383-.329.588-.479 1.267-.933 2.568-1.69 3.874-2.273.105-.046.22-.083.372-.112.068-.013.137-.02.206-.02.227 0 .454.048.67.144.057.026.108.066.132.128.093.242.14.498.14.757 0 .26-.047.516-.14.757z"/></svg>
+                    <span>Click Here to Start Now</span>
                 </a>
             </div>
         </div>
@@ -351,8 +325,8 @@
                 
                 <div class="p-6 bg-white rounded-xl shadow-md border-b-4 border-primary hover:shadow-lg transition duration-300">
                     <div class="text-4xl text-primary font-extrabold mb-2">2</div>
-                    <h3 class="text-xl font-bold text-secondary mb-3">Pay the N2000 Fee</h3>
-                    <p class="text-gray-600">Make the one-time service payment of ₦2000 for fast-track processing and certification.</p>
+                    <h3 class="text-xl font-bold text-secondary mb-3">Pay the ₦3000 Fee</h3>
+                    <p class="text-gray-600">Make the one-time service payment of ₦3000 for fast-track processing and certification.</p>
                 </div>
                 
                 <div class="p-6 bg-white rounded-xl shadow-md border-b-4 border-primary hover:shadow-lg transition duration-300">
