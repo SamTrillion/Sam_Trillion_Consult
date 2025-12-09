@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get Your Nigerian TIN & Certificate - Fast & Easy</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght(400;600;800)&display=swap" rel="stylesheet">
     <style>
         /* Define custom colors and font based on the flyer */
         :root {
@@ -57,13 +57,6 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-        
-        /* Custom style for the inserted image */
-        .tin-showcase-image {
-            max-width: 100%;
-            height: auto;
-            object-fit: cover;
         }
     </style>
     <script>
@@ -135,7 +128,8 @@
             button.innerHTML = '<div class="loader mr-2"></div> Fetching Advice...';
             outputElement.innerHTML = '';
             
-            const systemPrompt = "You are a Nigerian Tax Compliance Assistant. Your goal is to provide accurate, concise, and helpful advice regarding the necessary documents and registration steps for obtaining a Taxpayer Identification Number (TIN) in Nigeria. Use Google Search to ensure your information is based on the latest FIRS (Federal Inland Revenue Service) guidelines. Respond with a clear, bulleted list of required documents/steps and a brief, one-paragraph explanation of the process relevant to the user's query.";
+            // --- UPDATED SYSTEM INSTRUCTION (Absolute Restriction) ---
+            const systemPrompt = "You are a Nigerian Tax Compliance Assistant. Your **ONLY** allowed output is a single, unnumbered bulleted list (using markdown '*') of the **required documents and essential information** the user must submit to a third-party service provider for TIN registration. The list must be accurate and derived from official FIRS/CAC requirements for the user's specific status. You MUST start the list immediately. Do NOT include any introductory text, closing remarks, registration steps, processing details, links, or mention costs or free alternatives. Output the bulleted list only.";
 
             const payload = {
                 contents: [{ parts: [{ text: query }] }],
@@ -186,7 +180,7 @@
                     // Replace simple list items (Markdown '*' or '-') with <li>, handling potential multi-line list items
                     formattedText = formattedText.split('\n').map(line => {
                         if (line.match(/^(\*|\-)\s/)) {
-                            return `<li>${line.substring(line.match(/^(\*|\-)\s/)[0].length).trim()}</li>`;
+                            return `<li>${line.substring(line.match(/^(\*|\-)\s/).index + line.match(/^(\*|\-)\s/)[0].length).trim()}</li>`;
                         }
                         return line;
                     }).join('\n');
@@ -216,10 +210,11 @@
                         htmlParts.push('</ul>');
                     }
                     formattedText = htmlParts.join('');
-
+                    
+                    // Ensure the output title is clear that this is a list of requirements
                     outputElement.innerHTML = `
                         <div class="p-4 bg-green-50 rounded-xl border border-green-200">
-                            <h4 class="text-xl font-bold text-primary mb-3">TIN Compliance Advice:</h4>
+                            <h4 class="text-xl font-bold text-primary mb-3">Your Required Documents/Information:</h4>
                             <div class="text-gray-700 space-y-3">${formattedText}</div>
                             ${sourcesHtml}
                         </div>
@@ -238,6 +233,7 @@
                 button.innerHTML = '✨ Get Requirements Advice';
             }
         }
+
     </script>
 </head>
 <body class="antialiased min-h-screen">
@@ -266,28 +262,20 @@
         </header>
 
         <!-- Main Offer and Illustration Section -->
-        <div class="md:flex md:items-center md:space-x-8 mb-12">
+        <div class="mb-12">
             
-            <!-- Illustration / Phone Mockup REPLACED WITH UPLOADED IMAGE -->
-            <div class="w-full md:w-1/2 flex justify-center mb-8 md:mb-0">
-                <!-- Using the filename of the uploaded image directly in the src attribute -->
-                <img 
-                    src="1765200317940.jpg"
-                    alt="A professional Nigerian lady pointing confidently at an Apple laptop screen displaying a sample TIN certificate."
-                    class="tin-showcase-image rounded-xl shadow-2xl"
-                >
-            </div>
-            
-            <!-- Offer Box -->
-            <div class="w-full md:w-1/2 p-6 bg-white rounded-xl offer-box-shadow border-t-8 border-primary">
+            <!-- Offer Box (Now full width) -->
+            <div class="w-full p-6 bg-white rounded-xl offer-box-shadow border-t-8 border-primary">
                 
-                <h2 class="text-3xl font-bold mb-4 text-secondary">Avoid the Queues! Get Certified.</h2>
+                <h2 class="text-3xl font-bold mb-4 text-secondary text-center">Avoid the Queues! Get Certified.</h2>
                 
+                <!-- Fee Section -->
                 <div class="my-6 p-4 rounded-lg bg-primary text-white text-center">
                     <p class="text-xl font-semibold opacity-80">One-Time Fee:</p>
                     <p class="text-5xl font-extrabold">₦3000</p>
                 </div>
                 
+                <!-- Benefits List -->
                 <ul class="space-y-3 text-gray-700">
                     <li class="flex items-start">
                         <span class="text-primary font-bold text-xl mr-2 mt-0.5">&#10003;</span>
@@ -303,8 +291,8 @@
                     </li>
                 </ul>
                 
-                <!-- Primary Desktop CTA Button -->
-                <a href="#" class="whatsapp-link mt-8 w-full hidden md:flex items-center justify-center space-x-2 bg-[#25D366] hover:bg-primary text-white font-extrabold py-4 rounded-xl text-xl shadow-lg hover:shadow-xl transition duration-300">
+                <!-- Primary Desktop CTA Button - Width limited to max-w-sm and centered (mx-auto) -->
+                <a href="#" class="whatsapp-link mt-8 max-w-sm mx-auto hidden md:flex items-center justify-center space-x-2 bg-[#25D366] hover:bg-primary text-white font-extrabold py-4 rounded-xl text-xl shadow-lg hover:shadow-xl transition duration-300">
                     <!-- WhatsApp Icon (inline SVG) -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 0C6.113 0 1.258 4.855 1.258 10.743c0 1.884.498 3.738 1.455 5.372l-1.63 4.97c-.053.161.026.335.187.388.049.017.1.025.15.025.111 0 .216-.046.284-.127l5.053-3.134c1.558.835 3.32 1.272 5.092 1.272 5.888 0 10.743-4.855 10.743-10.743C22.744 4.855 17.889 0 12.001 0zm4.512 14.128c-.024.062-.075.102-.132.128-.216.096-.443.144-.67.144-.069 0-.138-.007-.206-.02-.152-.029-.267-.066-.372-.112-1.306-.583-2.607-1.34-3.874-2.273-.205-.15-.401-.31-.588-.479-.115-.107-.22-.218-.316-.334-.143-.166-.277-.34-.397-.521-.13-.197-.245-.407-.345-.632-.122-.276-.226-.576-.307-.899-.088-.352-.132-.712-.132-1.077 0-.365.044-.725.132-1.077.081-.323.185-.623.307-.899.1-.225.215-.435.345-.632.12-.181.254-.355.397-.521.096-.116.201-.227.316-.334.187-.169.383-.329.588-.479 1.267-.933 2.568-1.69 3.874-2.273.105-.046.22-.083.372-.112.068-.013.137-.02.206-.02.227 0 .454.048.67.144.057.026.108.066.132.128.093.242.14.498.14.757 0 .26-.047.516-.14.757z"/></svg>
                     <span>Click Here to Start Now</span>
