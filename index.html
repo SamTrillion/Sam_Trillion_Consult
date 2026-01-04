@@ -1,529 +1,693 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- FAVICON LINK: Updated Trillion Dollar Brand SVG (High-Fidelity Metallic 'T' with Cyber Globe) -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000000' rx='18'/%3E%3Ccircle cx='50' cy='50' r='28' fill='%2300ffff' opacity='0.2'/%3E%3Cpath fill='%2300ffff' opacity='0.5' d='M 50 22 A 28 28 0 0 0 50 78 A 28 28 0 0 0 50 22 Z M 50 30 A 20 20 0 1 1 50 70 A 20 20 0 1 1 50 30 Z' transform='rotate(30, 50, 50)'/%3E%3Cg transform='translate(0, 5)'%3E%3Crect x='42' y='30' width='16' height='45' fill='%23C0C0C0'/%3E%3Crect x='42' y='30' width='16' height='45' fill='url(%23metallic-gradient)'/%3E%3Crect x='30' y='25' width='40' height='10' fill='%23C0C0C0'/%3E%3Crect x='30' y='25' width='40' height='10' fill='url(%23metallic-gradient-top)'/%3E%3Crect x='43' y='31' width='14' height='2' fill='%23FFFFFF' opacity='0.8'/%3E%3Crect x='31' y='26' width='38' height='2' fill='%23FFFFFF' opacity='0.8'/%3E%3C/g%3E%3Cpath d='M 20 50 A 35 35 0 0 1 50 15' fill='none' stroke='%23808080' stroke-width='4' opacity='0.5' stroke-linecap='round' transform='rotate(-10, 50, 50)'/%3E%3Cpath d='M 50 15 A 35 35 0 0 1 80 50' fill='none' stroke='%23808080' stroke-width='4' opacity='0.5' stroke-linecap='round' transform='rotate(10, 50, 50)'/%3E%3Cdefs%3E%3ClinearGradient id='metallic-gradient' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0%' stop-color='%23696969'/%3E%3Cstop offset='50%' stop-color='%23FFFFFF'/%3E%3Cstop offset='100%' stop-color='%23696969'/%3E%3C/linearGradient%3E%3ClinearGradient id='metallic-gradient-top' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%' stop-color='%23FFFFFF'/%3E%3Cstop offset='100%' stop-color='%23A9A9A9'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E" />
-    <title>Get Your Nigerian TIN & Certificate - Fast & Easy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght(400;600;800)&display=swap" rel="stylesheet">
-    <style>
-        /* Define custom colors and font based on the professional theme */
-        :root {
-            --color-primary: #043D2A; /* Deep Green/Teal - Professional and Trustworthy */
-            --color-secondary: #0A3358; /* Dark Navy Blue - Corporate and Mature */
-            --color-accent: #28a745; /* Bright WhatsApp Green */
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  BarChart3, 
+  BrainCircuit, 
+  ChevronRight, 
+  Database, 
+  Globe, 
+  Layers, 
+  LineChart, 
+  Menu, 
+  PieChart, 
+  Send, 
+  ShieldCheck, 
+  TrendingUp, 
+  Users, 
+  X,
+  Zap,
+  Activity,
+  Target,
+  Mail,
+  Info,
+  CheckCircle2,
+  Cpu,
+  Boxes,
+  Compass
+} from 'lucide-react';
+
+/**
+ * ANIMATED BACKGROUND COMPONENT
+ */
+const DataCosmosBackground = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    const particles = [];
+    const particleCount = Math.min(width / 10, 100); 
+    const connectionDistance = 150;
+    const mouseDistance = 200;
+
+    let mouse = { x: null, y: null };
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+    });
+
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    });
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.size = Math.random() * 2 + 1;
+        this.color = '#00f0ff';
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx = -this.vx;
+        if (this.y < 0 || this.y > height) this.vy = -this.vy;
+
+        if (mouse.x != null) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < mouseDistance) {
+            const force = (mouseDistance - distance) / mouseDistance;
+            this.vx -= (dx / distance) * force * 0.6;
+            this.vy -= (dy / distance) * force * 0.6;
+          }
         }
-        .text-primary { color: var(--color-primary); }
-        .bg-primary { background-color: var(--color-primary); }
-        .text-secondary { color: var(--color-secondary); }
-        .bg-secondary { background-color: var(--color-secondary); }
+      }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f9fb;
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      for (let a = 0; a < particles.length; a++) {
+        for (let b = a; b < particles.length; b++) {
+          let dx = particles[a].x - particles[b].x;
+          let dy = particles[a].y - particles[b].y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < connectionDistance) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(0, 240, 255, ${1 - dist / connectionDistance})`;
+            ctx.lineWidth = 1;
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.stroke();
+          }
         }
+      }
+      requestAnimationFrame(animate);
+    };
+    animate();
+  }, []);
 
-        /* Custom shadow for the main offer box - NOTE: Vertical breathing animation removed */
-        .offer-box-shadow {
-            box-shadow: 0 10px 25px -3px rgba(10, 51, 88, 0.2), 0 4px 6px -2px rgba(10, 51, 88, 0.05);
-            /* Smoother, custom transition for noticeable effect */
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-        }
+  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10 bg-slate-950" />;
+};
 
-        /* Enhanced Hover for Offer Box: Aggressive pop and lift (rotation removed) */
-        .offer-box-shadow:hover {
-            transform: scale(1.03) translateY(-8px); /* Removed rotate(-1deg) */
-            box-shadow: 0 20px 40px -5px rgba(10, 51, 88, 0.4); 
-        }
+/**
+ * INTERACTIVE VALUE PROJECTION DASHBOARD (Hero)
+ */
+const ValueProjectionDashboard = () => {
+  const [dataScale, setDataScale] = useState(40);
+  const [demandLevel, setDemandLevel] = useState(88);
 
-        /* Styling the animated CTA button (Mobile/Fixed CTA - uses simpler pulse) */
-        .whatsapp-cta {
-            transition: all 0.3s ease;
-            animation: pulse-green 2s infinite; 
-        }
+  const projectedROI = Math.floor((dataScale * 3.5) + 120);
+  const efficiencyGain = Math.floor(dataScale * 0.85);
+  const globalRelevance = Math.min(100, Math.floor(demandLevel + (dataScale / 10)));
 
-        .whatsapp-cta:hover {
-            transform: scale(1.05);
-            animation: none;
-        }
+  return (
+    <div className="relative z-10 bg-slate-900/90 backdrop-blur-2xl border border-slate-700/50 rounded-[2rem] p-8 shadow-2xl overflow-hidden group">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h4 className="text-white font-bold text-lg flex items-center gap-2">
+            <Activity size={20} className="text-cyan-400" />
+            Impact Projection Engine
+          </h4>
+          <p className="text-slate-500 text-[10px] uppercase tracking-widest font-mono">v4.0 Global Intelligence</p>
+        </div>
+        <div className="flex gap-1">
+          {[1, 2, 3].map(i => <div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-700"></div>)}
+        </div>
+      </div>
 
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
-        }
+      <div className="space-y-8">
+        <div className="space-y-4">
+          <div className="flex justify-between items-end">
+            <label className="text-xs font-mono text-cyan-500 uppercase tracking-tighter">Adjust Data Complexity</label>
+            <span className="text-2xl font-black text-white">{dataScale}TB+</span>
+          </div>
+          <input 
+            type="range" 
+            min="1" 
+            max="100" 
+            value={dataScale} 
+            onChange={(e) => setDataScale(parseInt(e.target.value))}
+            className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+          />
+          <div className="flex justify-between text-[9px] text-slate-600 font-mono uppercase tracking-widest">
+            <span>Startup</span>
+            <span>Enterprise</span>
+            <span>Government</span>
+          </div>
+        </div>
 
-        /* Custom style to make the dropdown visually appealing and match theme */
-        #applicantTypeSelect {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%230A3358'%3E%3Cpath d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 1.5em 1.5em;
-        }
+        <div className="grid grid-cols-2 gap-4">
+          <div className="p-5 bg-slate-950/50 rounded-2xl border border-slate-800 hover:border-cyan-500/30 transition-all">
+            <div className="flex items-center gap-2 mb-2">
+              <TrendingUp size={14} className="text-cyan-400" />
+              <span className="text-[10px] text-slate-500 uppercase font-bold">ROI Multiplier</span>
+            </div>
+            <div className="text-3xl font-black text-white">{projectedROI}%</div>
+            <div className="mt-2 h-1 w-full bg-slate-800 rounded-full overflow-hidden">
+               <div className="h-full bg-cyan-500" style={{ width: `${Math.min(100, projectedROI/5)}%` }}></div>
+            </div>
+          </div>
 
-        /* --- ENHANCED ANIMATIONS FOR INCREASED CONVERSION --- */
+          <div className="p-5 bg-slate-950/50 rounded-2xl border border-slate-800 hover:border-purple-500/30 transition-all">
+            <div className="flex items-center gap-2 mb-2">
+              <Globe size={14} className="text-purple-400" />
+              <span className="text-[10px] text-slate-500 uppercase font-bold">Market Demand</span>
+            </div>
+            <div className="text-3xl font-black text-white">{globalRelevance}%</div>
+            <div className="mt-2 h-1 w-full bg-slate-800 rounded-full overflow-hidden">
+               <div className="h-full bg-purple-500" style={{ width: `${globalRelevance}%` }}></div>
+            </div>
+          </div>
+        </div>
 
-        /* 1. Policy Alert (Trillion Dollar Smooth Pulse - Wiggle Removed) */
-        .policy-alert {
-            /* Smooth, impactful pulse timing adjusted to 2 seconds for the full cycle */
-            animation: alarm-pulse 2s infinite ease-in-out; 
-            border-width: 2px; 
-        }
-        @keyframes alarm-pulse {
-            /* Only scale (zoom) and box-shadow (glow) remain */
-            0% { 
-                transform: scale(1.0); 
-                opacity: 1; 
-                box-shadow: 0 0 5px rgba(220, 38, 38, 0.4); 
-            }
-            25% { 
-                transform: scale(1.005); 
-                opacity: 0.9; 
-                box-shadow: 0 0 10px rgba(220, 38, 38, 0.6); 
-            }
-            50% { 
-                /* Peak scale and glow */
-                transform: scale(1.01); 
-                opacity: 1; 
-                box-shadow: 0 0 15px rgba(220, 38, 38, 1); 
-            }
-            75% { 
-                transform: scale(1.005); 
-                opacity: 0.9; 
-                box-shadow: 0 0 10px rgba(220, 38, 38, 0.6); 
-            }
-            100% { 
-                transform: scale(1.0); 
-                opacity: 1; 
-                box-shadow: 0 0 5px rgba(220, 38, 38, 0.4); 
-            }
-        }
-        
-        /* 3. Requirements Navigator (Billion Dollar Focus Animation) - Existing */
-        .navigator-billion-focus {
-            position: relative;
-            overflow: hidden; 
-            border: 4px solid transparent; 
-            padding: 1px; 
-            /* Permanent subtle scale to draw persistent attention */
-            animation: subtle-scale 6s infinite ease-in-out;
-        }
-
-        @keyframes subtle-scale {
-            0% { transform: scale(1.0); }
-            50% { transform: scale(1.005); }
-            100% { transform: scale(1.0); }
-        }
-
-        /* Rotating Background Gradient Pseudo-Element (The "Billion Dollar" Effect) */
-        .navigator-billion-focus::before {
-            content: '';
-            position: absolute;
-            top: -150%;
-            left: -150%;
-            width: 400%;
-            height: 400%;
-            background: conic-gradient(
-                from 0deg,
-                rgba(4, 61, 42, 0.1) 0%, 
-                rgba(10, 51, 88, 0.9) 20%, 
-                rgba(220, 38, 38, 0.9) 40%, 
-                rgba(4, 61, 42, 0.9) 60%, 
-                rgba(10, 51, 88, 0.1) 80%, 
-                rgba(4, 61, 42, 0.1) 100%
-            );
-            z-index: 0;
-            animation: rotate-border 5s linear infinite;
-        }
-
-        @keyframes rotate-border {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Inner container to ensure content is over the rotating background and has a white base */
-        .navigator-inner-content {
-            position: relative;
-            z-index: 10;
-            background-color: white;
-            padding: 2rem; 
-            border-radius: 0.65rem; 
-            height: 100%;
-            width: 100%;
-        }
-
-        /* 4. Billion Dollar Desktop CTA Button Effect (Rotating Border) */
-        .billion-cta-desktop {
-            position: relative;
-            overflow: hidden; 
-            padding: 1px; /* Required for the pseudo-element border */
-            border-radius: 0.75rem;
-            text-decoration: none;
-            box-shadow: none !important;
-            animation: subtle-scale 6s infinite ease-in-out;
-            display: flex;
-            align-items: stretch;
-        }
-
-        /* Rotating Border Gradient */
-        .billion-cta-desktop::before {
-            content: '';
-            position: absolute;
-            top: -150%;
-            left: -150%;
-            width: 400%;
-            height: 400%;
-            background: conic-gradient(
-                from 0deg,
-                rgba(40, 167, 69, 0.1) 0%, /* Green Faded */
-                rgba(4, 61, 42, 0.8) 20%, /* Deep Green Strong */
-                rgba(10, 51, 88, 0.8) 40%, /* Navy Blue Strong */
-                rgba(40, 167, 69, 0.8) 60%, /* Green Strong */
-                rgba(40, 167, 69, 0.1) 100%
-            );
-            z-index: 0;
-            animation: rotate-border 3s linear infinite; /* Faster rotation for urgency */
-            border-radius: 0.75rem; 
-        }
-
-        /* Inner wrapper for solid background and content */
-        .billion-cta-inner {
-            position: relative;
-            z-index: 10;
-            background-color: #25D366; /* WhatsApp Green */
-            padding: 1rem 2rem; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            width: 100%;
-            border-radius: 0.65rem; 
-            color: white;
-            font-weight: 800; 
-            font-size: 1.25rem; 
-            transition: background-color 0.3s ease, transform 0.3s ease; 
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            gap: 0.5rem; /* space-x-2 equivalent */
-        }
-
-        .billion-cta-inner:hover {
-            background-color: var(--color-primary); /* Darker hover */
-            transform: scale(1.02);
-        }
-
-    </style>
-    <script>
-        // --- SINGLE SOURCE OF TRUTH FOR PRICE ---
-        const TIN_PRICE_NUMERIC = 5000; 
-        const TIN_PRICE_NAIRA = `₦${TIN_PRICE_NUMERIC.toLocaleString('en-US')}`; 
-        
-        // --- STATIC DATA: SECURE LOOKUP DATABASE (NO API KEY REQUIRED) ---
-        const TIN_REQUIREMENTS_DATA = {
-            "default": {
-                title: "Welcome to the Secure Requirements Navigator!",
-                icon: '🖥️',
-                content: [
-                    "Please select your applicant status from the dropdown menu below to view the precise documents required for your TIN application."
-                ]
-            },
-            "individual": {
-                title: "Individual Applicant (Employed, Freelancer, Student)",
-                icon: '👤',
-                content: [
-                    "A Clear Scan or Photo of your National Identity Number (NIN) slip or card.",
-                    "A recent Utility Bill (NEPA/PHCN bill, water bill) showing your address, or a Letter of Residence from your community head.",
-                    "Your full name, date of birth, and phone number.",
-                    "A passport photograph (soft copy)."
-                ]
-            },
-            "business_name": {
-                title: "Registered Business Name (Sole Proprietorship)",
-                icon: '💼',
-                content: [
-                    "CAC Certificate of Registration of Business Name.",
-                    "Proprietor's National Identity Number (NIN) slip or card.",
-                    "Proprietor's utility bill (Proof of Address).",
-                    "Business address and phone number."
-                ]
-            },
-            "registered_company": {
-                title: "Registered Company (Limited Liability Company - LTD/PLC)",
-                icon: '🏢',
-                content: [
-                    "Certificate of Incorporation (CAC).",
-                    "Form CAC 1.1 or Business Details containing particulars of Directors and Share Capital.",
-                    "Memorandum and Articles of Association (MEMART).",
-                    "Official company address and contact details.",
-                    "NINs of at least two Directors."
-                ]
-            }
-        };
-
-        // --- Core Application Logic ---
-
-        // Function to close the requirements modal
-        function closeModal() {
-            document.getElementById('requirementsModal').classList.add('hidden');
-            document.getElementById('requirementsModal').classList.remove('flex');
-            // Reset dropdown to force selection next time
-            document.getElementById('applicantTypeSelect').value = 'default';
-        }
-
-        // Static Lookup Function (Populates and opens the modal)
-        function showRequirements(selectedKey) {
-            
-            if (selectedKey === 'default') {
-                // If default is selected (or reset), do nothing (or reset any previous message)
-                return;
-            }
-
-            const data = TIN_REQUIREMENTS_DATA[selectedKey];
-            
-            // Elements in the modal
-            const modalTitle = document.getElementById('modalTitle');
-            const modalSubtitle = document.getElementById('modalSubtitle'); 
-            const modalBody = document.getElementById('modalBody');
-            const modalCTA = document.getElementById('modalCTA');
-            const modal = document.getElementById('requirementsModal');
-
-            // Check for valid data before proceeding
-            if (!data) {
-                modalTitle.textContent = "Error";
-                modalSubtitle.textContent = "An error occurred while fetching requirements.";
-                modalBody.innerHTML = `<p class="text-red-500 font-bold">Error: Requirements data not found for selection.</p>`;
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                return;
-            }
-            
-            // Populate content - Refactored for cleaner, single-line main heading
-            modalTitle.innerHTML = `<span class="text-primary">${data.title}</span>`;
-            modalSubtitle.textContent = ""; 
-            
-            let listItems = data.content.map(item => `
-                <li class="flex items-start">
-                    <span class="mr-3 text-primary font-bold text-xl">&#10003;</span>
-                    <span class="text-gray-700">${item}</span>
-                </li>
-            `).join('');
-            
-            modalBody.innerHTML = `
-                <p class="text-xl text-secondary mb-4 font-extrabold border-b pb-2">Official Documents Checklist:</p>
-                <ul class="list-none ml-0 space-y-4 text-base">
-                    ${listItems}
-                </ul>
-            `;
-            
-            modalCTA.href = document.querySelector('.whatsapp-link').href;
-            
-            // Show modal
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // 1. Dynamic Price Injection
-            document.getElementById('displayPrice').textContent = TIN_PRICE_NAIRA;
-            document.getElementById('stepTwoTitle').textContent = `Pay the ${TIN_PRICE_NAIRA} Fee`;
-            document.getElementById('stepTwoPriceText').textContent = `Make the one-time service payment of ${TIN_PRICE_NAIRA} for fast-track processing and certification.`;
-
-            // 2. WhatsApp Link Setup
-            const phoneNumber = '2349085006059'; 
-            const message = encodeURIComponent(`Yes! I want to get my Nigerian TIN and Certificate instantly for N${TIN_PRICE_NUMERIC}. I need the fast track service.`);
-            const whatsappLink = `https://wa.me/${phoneNumber}?text=${message}`;
-            
-            document.querySelectorAll('.whatsapp-link').forEach(button => {
-                button.href = whatsappLink;
-            });
-            
-            // 3. Event Listener Setup for Dropdown
-            const dropdown = document.getElementById('applicantTypeSelect');
-            if (dropdown) {
-                dropdown.addEventListener('change', function() {
-                    const selectedKey = this.value;
-                    showRequirements(selectedKey);
-                });
-            }
-        });
-    </script>
-</head>
-<body class="antialiased min-h-screen">
-    
-    <!-- Fixed WhatsApp CTA Button for Mobile/Scroll -->
-    <a href="#" class="whatsapp-link fixed bottom-4 right-4 z-50 bg-[#25D366] hover:bg-[#128C7E] text-white font-extrabold py-3 px-6 rounded-full text-lg shadow-lg whatsapp-cta md:hidden flex items-center space-x-2">
-        <!-- WhatsApp Icon (inline SVG) -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 0C6.113 0 1.258 4.855 1.258 10.743c0 1.884.498 3.738 1.455 5.372l-1.63 4.97c-.053.161.026.335.187.388.049.017.1.025.15.025.111 0 .216-.046.284-.127l5.053-3.134c1.558.835 3.32 1.272 5.092 1.272 5.888 0 10.743-4.855 10.743-10.743C22.744 4.855 17.889 0 12.001 0zm4.512 14.128c-.024.062-.075.102-.132.128-.216.096-.443.144-.67.144-.069 0-.138-.007-.206-.02-.152-.029-.267-.066-.372-.112-1.306-.583-2.607-1.34-3.874-2.273-.205-.15-.401-.31-.588-.479-.115-.107-.22-.218-.316-.334-.143-.166-.277-.34-.397-.521-.13-.197-.245-.407-.345-.632-.122-.276-.226-.576-.307-.899-.088-.352-.132-.712-.132-1.077 0-.365.044-.725.132-1.077.081-.323.185-.623.307-.899.1-.225.215-.435.345-.632.12-.181.254-.355.397-.521.096-.116.201-.227.316-.334.187-.169.383-.329.588-.479 1.267-.933 2.568-1.69 3.874-2.273.105-.046.22-.083.372-.112.068-.013.137-.02.206-.02.227 0 .454.048.67.144.057.026.108.066.132.128.093.242.14.498.14.757 0 .26-.047.516-.14.757z"/></svg>
-        <span>Chat Now</span>
-    </a>
-    
-    <!-- Main Content Container -->
-    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        
-        <!-- Header Section -->
-        <header class="text-center mb-12">
-            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-secondary tracking-tight leading-tight">
-                GET YOUR NIGERIAN <span class="text-primary">TIN!</span>
-            </h1>
-            <p class="mt-4 text-xl sm:text-2xl text-gray-700 font-medium">
-                Fast & Easy Taxpayer Identification Number Registration Service
+        <div className="p-4 bg-cyan-500/5 rounded-xl border-l-4 border-cyan-500 flex items-start gap-3">
+          <Zap size={18} className="text-cyan-400 mt-1 shrink-0" />
+          <div>
+            <div className="text-xs font-bold text-white uppercase mb-1">Live Projection</div>
+            <p className="text-[11px] text-slate-400 leading-relaxed italic">
+              Integrating <span className="text-cyan-300">{dataScale}TB</span> of operational data predicts an efficiency gain of <span className="text-cyan-300">+{efficiencyGain}%</span> in public resource allocation.
             </p>
-            <!-- Policy Alert Banner with FLASH/ZOOM Animation -->
-            <div class="mt-2 text-sm text-red-600 font-semibold border border-red-300 bg-red-50 p-2 rounded-lg inline-block policy-alert">
-                <span role="img" aria-label="alert">🚨</span> New Policy Alert: TIN is now mandatory and linked to bank accounts! Don't wait!
-            </div>
-        </header>
-
-        <!-- Main Offer and Illustration Section -->
-        <div class="mb-12">
-            
-            <!-- Offer Box - Hover Scale/Lift remains. Rotation is removed. -->
-            <div class="w-full p-6 bg-white rounded-xl offer-box-shadow border-t-8 border-primary">
-                
-                <h2 class="text-3xl font-bold mb-4 text-secondary text-center">Avoid the Queues! Get Certified.</h2>
-                
-                <!-- Fee Section -->
-                <div class="my-6 p-4 rounded-lg bg-primary text-white text-center">
-                    <p class="text-xl font-semibold opacity-80">One-Time Fee:</p>
-                    <p id="displayPrice" class="text-4xl sm:text-5xl font-extrabold">₦3,500</p>
-                </div>
-                
-                <!-- Benefits List -->
-                <ul class="space-y-3 text-gray-700">
-                    <li class="flex items-start">
-                        <span class="text-primary font-bold text-xl mr-2 mt-0.5">&#10003;</span>
-                        <span><span class="font-bold text-primary">Instant Generation:</span> Skip the long queue and get your TIN process started immediately.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-primary font-bold text-xl mr-2 mt-0.5">&#10003;</span>
-                        <span><span class="font-bold text-primary">Original Certificate:</span> Receive your official, Government Accredited Certificate delivered directly to you.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-primary font-bold text-xl mr-2 mt-0.5">&#10003;</span>
-                        <span><span class="font-bold text-primary">Verified & Ready to Use:</span> Your official, government-authenticated TIN and certificate are processed with urgency and ready for immediate deployment in all your banking and business needs.</span>
-                    </li>
-                </ul>
-                
-                <!-- Primary Desktop CTA Button - Now uses the Billion Dollar Effect -->
-                <a href="#" class="whatsapp-link mt-8 max-w-sm mx-auto hidden md:flex billion-cta-desktop">
-                    <div class="billion-cta-inner">
-                        <!-- WhatsApp Icon (inline SVG) -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 0C6.113 0 1.258 4.855 1.258 10.743c0 1.884.498 3.738 1.455 5.372l-1.63 4.97c-.053.161.026.335.187.388.049.017.1.025.15.025.111 0 .216-.046.284-.127l5.053-3.134c1.558.835 3.32 1.272 5.092 1.272 5.888 0 10.743-4.855 10.743-10.743C22.744 4.855 17.889 0 12.001 0zm4.512 14.128c-.024.062-.075.102-.132.128-.216.096-.443.144-.67.144-.069 0-.138-.007-.206-.02-.152-.029-.267-.066-.372-.112-1.306-.583-2.607-1.34-3.874-2.273-.205-.15-.401-.31-.588-.479-.115-.107-.22-.218-.316-.334-.143-.166-.277-.34-.397-.521-.13-.197-.245-.407-.345-.632-.122-.276-.226-.576-.307-.899-.088-.352-.132-.712-.132-1.077 0-.365.044-.725.132-1.077.081-.323.185-.623.307-.899.1-.225.215-.435.345-.632.12-.181.254-.355.397-.521.096-.116.201-.227.316-.334.187-.169.383-.329.588-.479 1.267-.933 2.568-1.69 3.874-2.273.105-.046.22-.083.372-.112.068-.013.137-.02.206-.02.227 0 .454.048.67.144.057.026.108.066.132.128.093.242.14.498.14.757 0 .26-.047.516-.14.757z"/></svg>
-                        <span>Click Here to Start Now</span>
-                    </div>
-                </a>
-            </div>
+          </div>
         </div>
 
-        <!-- How It Works Section -->
-        <section class="mt-16 text-center">
-            <h2 class="text-3xl font-bold text-secondary mb-8 border-b-2 border-primary pb-2 inline-block">How It Works</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <div class="p-6 bg-white rounded-xl shadow-md border-b-4 border-primary hover:shadow-lg transition duration-300">
-                    <div class="text-4xl text-primary font-extrabold mb-2">1</div>
-                    <h3 class="text-xl font-bold text-secondary mb-3">Send Your Details</h3>
-                    <p class="text-gray-600">Click the WhatsApp button and share the required information (ID, Name, etc.) with our team.</p>
-                </div>
-                
-                <div class="p-6 bg-white rounded-xl shadow-md border-b-4 border-primary hover:shadow-lg transition duration-300">
-                    <div class="text-4xl text-primary font-extrabold mb-2">2</div>
-                    <h3 id="stepTwoTitle" class="text-xl font-bold text-secondary mb-3">Pay the Fee</h3>
-                    <p id="stepTwoPriceText" class="text-gray-600">Make the one-time service payment of the fee for fast-track processing and certification.</p>
-                </div>
-                
-                <div class="p-6 bg-white rounded-xl shadow-md border-b-4 border-primary hover:shadow-lg transition duration-300">
-                    <div class="text-4xl text-primary font-extrabold mb-2">3</div>
-                    <h3 class="text-xl font-bold text-secondary mb-3">Get Your TIN & Certificate</h3>
-                    <p class="text-gray-600">Receive your official TIN and the Government Accredited Certificate directly to your WhatsApp/Email.</p>
-                </div>
-            </div>
-        </section>
+        <button className="w-full py-4 bg-white text-slate-950 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-cyan-400 transition-all active:scale-95 flex items-center justify-center gap-2">
+           Generate Full Audit Report <Target size={14} />
+        </button>
+      </div>
 
-        <!-- Requirements Navigator (Secure Static Lookup) - Billion Dollar Focus Animation -->
-        <section class="mt-16 relative overflow-hidden rounded-xl shadow-2xl navigator-billion-focus p-1">
-            <!-- Inner content wrapper to provide the white background -->
-            <div class="navigator-inner-content"> 
-                <h2 class="text-3xl font-bold text-secondary mb-4 text-center">
-                    Official TIN Requirements Lookup
-                </h2>
-                <p class="text-gray-600 mb-6 text-center max-w-2xl mx-auto">
-                    Use the professional selection tool below to instantly confirm the precise documents required for your status.
-                </p>
-
-                <!-- Input Area (Dropdown) -->
-                <div class="mb-8 max-w-3xl mx-auto">
-                    <label for="applicantTypeSelect" class="block text-left text-lg font-semibold text-secondary mb-2">
-                        <span class="text-primary font-extrabold">STEP 1:</span> Select Your Applicant Status
-                    </label>
-                    <select id="applicantTypeSelect" class="w-full p-4 border-2 border-secondary rounded-xl text-lg bg-white shadow-inner font-medium focus:ring-4 focus:ring-primary/30 focus:border-primary transition duration-200">
-                        <option value="default" disabled selected>-- Choose Applicant Type --</option>
-                        <option value="individual">Individual Applicant (Staff, Student, Freelancer)</option>
-                        <option value="business_name">Registered Business Name (Sole Proprietorship)</option>
-                        <option value="registered_company">Limited Liability Company (LTD/PLC)</option>
-                    </select>
-                </div>
-
-                <div class="text-center p-4 bg-gray-100 rounded-lg text-gray-500 font-medium">
-                    Select an option above to view the detailed requirements in a pop-up window.
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Footer / Contact Info -->
-        <footer class="mt-16 pt-8 border-t border-gray-300 text-center text-gray-600">
-            <p class="mb-2">Visit us today! Talk to a representative:</p>
-            <div class="flex justify-center text-lg font-semibold">
-                <!-- WhatsApp Link (Primary CTA) - Effects Removed -->
-                <a href="#" class="whatsapp-link text-[#25D366] hover:text-primary transition duration-200">
-                    <span role="img" aria-label="whatsapp">💬</span> Chat with us on WhatsApp
-                </a>
-            </div>
-            <p class="mt-4 text-sm">&copy; 2025 TRILLION TECH. All Rights Reserved. Professional, Accredited Service.</p>
-        </footer>
+      <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-cyan-500/10 blur-[100px] rounded-full"></div>
     </div>
+  );
+};
 
-    <!-- Requirements Modal / Dialog Box -->
-    <div id="requirementsModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-70 items-center justify-center p-4 transition-opacity duration-300" onclick="if(event.target.id === 'requirementsModal') closeModal()">
+const SectionTitle = ({ children, subtitle }) => (
+  <div className="mb-12 md:mb-20">
+    <h3 className="text-cyan-400 font-mono tracking-widest text-sm uppercase mb-3">{subtitle}</h3>
+    <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
+      {children} <span className="text-cyan-500">.</span>
+    </h2>
+    <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-transparent mt-6"></div>
+  </div>
+);
+
+const Card = ({ icon: Icon, title, description, delay }) => (
+  <div 
+    className="group relative p-8 rounded-2xl bg-slate-900/40 border border-slate-800 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 overflow-hidden"
+    style={{ animationDelay: `${delay}ms` }}
+  >
+    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+    <div className="relative z-10">
+      <div className="w-14 h-14 rounded-xl bg-slate-800 flex items-center justify-center mb-6 text-cyan-400 group-hover:text-white group-hover:bg-cyan-500 transition-colors duration-300">
+        <Icon size={28} strokeWidth={1.5} />
+      </div>
+      <h3 className="text-xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors">{title}</h3>
+      <p className="text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors">{description}</p>
+    </div>
+  </div>
+);
+
+const Stat = ({ value, label }) => (
+  <div className="text-center p-6 border-r border-slate-800 last:border-0">
+    <div className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500 mb-2">{value}</div>
+    <div className="text-sm text-cyan-500 font-mono uppercase tracking-wider">{label}</div>
+  </div>
+);
+
+/**
+ * REDESIGNED FUTURISTIC ABOUT PAGE
+ */
+const AboutPage = () => {
+  return (
+    <div className="pt-32 pb-24 px-6 max-w-7xl mx-auto relative">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-cyan-500/5 blur-[120px] rounded-full -z-10 animate-pulse"></div>
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-500/5 blur-[100px] rounded-full -z-10"></div>
+
+      {/* Main Layout Grid */}
+      <div className="grid lg:grid-cols-12 gap-8 items-start">
         
-        <!-- Modal Content Container -->
-        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full transform transition-all duration-300 scale-100 border-t-8 border-primary">
+        {/* LEFT COLUMN: NAVIGATION & SUMMARY */}
+        <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-32">
+          {/* Holographic Sidebar */}
+          <div className="p-8 rounded-[2.5rem] bg-slate-900/60 border border-slate-800/50 backdrop-blur-xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-2xl rounded-full"></div>
             
-            <!-- Modal Header -->
-            <div class="p-6 border-b border-gray-200 bg-gray-50 rounded-t-lg">
-                <div class="flex justify-between items-start">
-                    <!-- Main Title injected here -->
-                    <h3 id="modalTitle" class="text-2xl sm:text-3xl font-extrabold text-secondary leading-tight">
-                        <!-- Content Injected Here by JS -->
-                    </h3>
-                    <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 transition duration-150 ml-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[9px] font-black uppercase tracking-widest mb-8">
+                <Info size={12} /> Corporate Profile
+              </div>
+              
+              <h1 className="text-5xl font-black text-white leading-none mb-4 uppercase tracking-tighter">About</h1>
+              <div className="h-1 w-20 bg-gradient-to-r from-cyan-500 to-transparent mb-8"></div>
+              
+              <div className="space-y-6">
+                <div className="p-4 bg-slate-950/40 rounded-2xl border border-slate-800 hover:border-cyan-500/30 transition-all">
+                  <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-4">Corporate Summary</h3>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center py-2 border-b border-slate-800/50">
+                      <span className="text-slate-400 text-[11px] uppercase font-mono">Industry</span>
+                      <span className="text-white text-[11px] font-bold">IT Services & Consulting</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-slate-800/50">
+                      <span className="text-slate-400 text-[11px] uppercase font-mono">Size</span>
+                      <span className="text-white text-[11px] font-bold">2-10 Employees</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2">
+                      <span className="text-slate-400 text-[11px] uppercase font-mono">Location</span>
+                      <span className="text-white text-[11px] font-bold">Nigeria / Africa</span>
+                    </div>
+                  </div>
                 </div>
-                <p id="modalSubtitle" class="text-sm sm:text-base text-gray-600 mt-1">
-                    <!-- Currently empty -->
-                </p>
+
+                <div className="p-4 bg-slate-950/40 rounded-2xl border border-slate-800">
+                  <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-4">Our Services</h3>
+                  <div className="grid grid-cols-1 gap-2">
+                    {['Data Analytics', 'AI Solutions', 'Analytics Consulting', 'Executive Data Training'].map((s, idx) => (
+                      <div key={idx} className="flex items-center gap-3 text-white text-[11px] font-medium py-1">
+                        <CheckCircle2 size={14} className="text-cyan-500" />
+                        {s}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-            
-            <!-- Modal Body (Requirements List) -->
-            <div id="modalBody" class="p-6">
-                <!-- List injected here -->
+          </div>
+
+          <div className="p-6 bg-cyan-500 rounded-3xl group cursor-pointer overflow-hidden relative shadow-lg shadow-cyan-500/10">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <h3 className="text-slate-950 font-black text-sm uppercase mb-1">Connect</h3>
+            <p className="text-slate-900 text-xs mb-4 font-medium italic">Join our team on LinkedIn</p>
+            <div className="bg-slate-950 text-white text-[10px] py-3 px-4 rounded-xl font-bold uppercase tracking-widest flex items-center justify-between group-hover:bg-slate-900 transition-colors">
+              View LinkedIn <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </div>
-            
-            <!-- Modal Footer (CTA) -->
-            <div class="p-6 bg-primary/10 rounded-b-xl text-center">
-                <a id="modalCTA" href="#" class="inline-block text-lg font-bold text-white bg-secondary hover:bg-primary px-8 py-3 rounded-xl transition duration-300 shadow-lg">
-                    <span role="img" aria-label="whatsapp">💬</span> Start Application via WhatsApp
-                </a>
-            </div>
+          </div>
         </div>
+
+        {/* RIGHT COLUMN: MAIN CONTENT */}
+        <div className="lg:col-span-8 space-y-12">
+          {/* Vision Segment */}
+          <section className="relative p-1 bg-gradient-to-br from-slate-700/50 to-transparent rounded-[2.5rem]">
+            <div className="bg-slate-950/90 backdrop-blur-xl rounded-[2.4rem] p-8 md:p-12 relative overflow-hidden">
+               <div className="absolute -top-24 -right-24 w-64 h-64 bg-cyan-500/10 blur-[100px] rounded-full"></div>
+               <div className="relative z-10 max-w-2xl">
+                 <p className="text-2xl md:text-3xl font-light text-slate-200 leading-snug">
+                   Sam Trillion Consult (STC) is a <span className="text-white font-bold">leading Data Analytics, Artificial Intelligence, and Consulting firm</span> dedicated to unlocking the strategic power of data for Nigerian and African organizations. 
+                 </p>
+                 <p className="text-lg text-slate-400 mt-6 leading-relaxed">
+                   We empower leaders and drive digital transformation by converting complex data into clear, actionable intelligence.
+                 </p>
+               </div>
+            </div>
+          </section>
+
+          {/* Core Focus: The Neural Path */}
+          <section className="space-y-8">
+            <div className="flex items-center gap-4">
+              <div className="h-px flex-grow bg-gradient-to-r from-transparent to-slate-800"></div>
+              <h2 className="text-xs font-black text-cyan-400 uppercase tracking-[0.4em] text-center">Our Core Focus</h2>
+              <div className="h-px flex-grow bg-gradient-to-l from-transparent to-slate-800"></div>
+            </div>
+
+            <div className="grid gap-6">
+              {[
+                {
+                  id: "1",
+                  title: "High-Impact Consulting & Training",
+                  desc: "We provide strategic consulting and world-class data analytics training to top-tier clients, including government nominees and senior policy-makers. Our mission is to equip the continent's leaders with the literacy and tools necessary to formulate Informed Policy and make data-driven decisions that foster national and organizational development.",
+                  icon: Users,
+                  color: "blue"
+                },
+                {
+                  id: "2",
+                  title: "Advanced Analytics Services",
+                  desc: "We partner with organizations and individuals to establish robust data pipelines, conduct deep-dive analysis, and deliver Actionable Analytics that solve complex business challenges, from optimizing operations to understanding market trends.",
+                  icon: Activity,
+                  color: "cyan"
+                },
+                {
+                  id: "3",
+                  title: "AI-Powered Solutions Development",
+                  desc: "We design, build, and deploy custom Intelligent Solutions using Machine Learning and AI. Our solutions are directly backed by rigorous analytics, ensuring they deliver measurable efficiency, competitive advantage, and AI-Powered Growth for all our clients.",
+                  icon: Cpu,
+                  color: "purple"
+                }
+              ].map((item, idx) => (
+                <div key={idx} className="group relative">
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-3xl opacity-0 group-hover:opacity-10 transition duration-500"></div>
+                  <div className="relative bg-slate-900/40 border border-slate-800/50 p-8 rounded-3xl flex flex-col md:flex-row gap-8 items-start transition-all hover:translate-x-2">
+                    <div className={`shrink-0 w-16 h-16 rounded-2xl bg-${item.color}-500/10 border border-${item.color}-500/20 flex items-center justify-center text-${item.color}-400 relative`}>
+                      <item.icon size={24} />
+                      <div className="absolute -top-2 -left-2 w-6 h-6 bg-slate-950 border border-slate-800 rounded-full flex items-center justify-center text-[10px] font-black text-white">
+                        {item.id}
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-black text-white uppercase tracking-tight mb-4 group-hover:text-cyan-400 transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-slate-400 leading-relaxed text-sm md:text-base">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Partnership Segment */}
+          <section className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 rounded-[2.5rem] blur opacity-20 group-hover:opacity-30 transition duration-1000"></div>
+            <div className="relative bg-slate-950 border border-slate-800/50 rounded-[2.5rem] p-10 md:p-14 overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_120%,rgba(34,211,238,0.1),transparent)]"></div>
+              
+              <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
+                <div>
+                  <h2 className="text-3xl font-black text-white uppercase tracking-tighter mb-6">Why Partner With Us?</h2>
+                  <p className="text-slate-300 leading-relaxed font-light mb-8">
+                    Based in Nigeria, we combine deep local insight with global-standard AI and analytics expertise. Our proven track record with high-stakes government and enterprise projects demonstrates our capacity to deliver trust, transformation, and verifiable results across the public and private sectors.
+                  </p>
+                  <div className="inline-flex items-center gap-3 text-cyan-400 font-bold tracking-[0.2em] text-xs uppercase italic group-hover:gap-5 transition-all">
+                    Let's build the data-driven future, together <ChevronRight size={16} />
+                  </div>
+                </div>
+                
+                <div className="relative aspect-square md:aspect-auto md:h-64 flex items-center justify-center">
+                   {/* Abstract Data Visual */}
+                   <div className="absolute w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
+                   <div className="relative w-full h-full border border-slate-800 rounded-full flex items-center justify-center animate-[spin_20s_linear_infinite]">
+                     <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_15px_rgba(34,211,238,1)]"></div>
+                     <Globe size={80} className="text-slate-800" />
+                   </div>
+                   <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center">
+                        <div className="text-4xl font-black text-white tracking-tighter">NIGERIA</div>
+                        <div className="text-[10px] font-mono text-cyan-500 uppercase tracking-widest">Global Standards</div>
+                      </div>
+                   </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
     </div>
-</body>
-</html>
+  );
+};
 
+export default function App() {
+  const [currentPage, setCurrentPage] = useState('home'); // 'home' or 'about'
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('executives');
+  const [formStatus, setFormStatus] = useState('idle');
 
+  const scrollTo = (id) => {
+    if (currentPage !== 'home') {
+      setCurrentPage('home');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    setIsMenuOpen(false);
+  };
+
+  const navigateTo = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsMenuOpen(false);
+  };
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    setFormStatus('sending');
+    setTimeout(() => setFormStatus('success'), 1500);
+  };
+
+  return (
+    <div className="min-h-screen text-slate-200 font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
+      <DataCosmosBackground />
+
+      {/* NAVIGATION */}
+      <nav className="fixed top-0 w-full z-50 px-6 py-4 bg-slate-950/80 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigateTo('home')}>
+            <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-lg flex items-center justify-center">
+              <span className="font-bold text-white">S</span>
+            </div>
+            <span className="text-xl font-bold tracking-tight text-white uppercase tracking-tighter">SAM TRILLION <span className="text-cyan-400 font-light italic">CONSULT</span></span>
+          </div>
+
+          <div className="hidden md:flex items-center gap-8">
+            <button onClick={() => navigateTo('about')} className={`text-xs font-bold transition-colors uppercase tracking-widest ${currentPage === 'about' ? 'text-cyan-400 border-b-2 border-cyan-400 pb-1' : 'text-slate-400 hover:text-cyan-400'}`}>About</button>
+            {['Services', 'Training', 'Projects'].map((item) => (
+              <button key={item} onClick={() => scrollTo(item.toLowerCase())} className="text-xs font-bold text-slate-400 hover:text-cyan-400 transition-colors uppercase tracking-widest">{item}</button>
+            ))}
+            <button 
+              onClick={() => scrollTo('contact')} 
+              className="relative group px-10 py-3 overflow-hidden rounded-lg font-black text-[11px] tracking-[0.3em] transition-all duration-300 uppercase"
+            >
+              <span className="absolute inset-0 bg-slate-900 border border-cyan-500/60 group-hover:border-cyan-400 transition-colors"></span>
+              <span className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity blur-md"></span>
+              <span className="absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent group-hover:animate-[shimmer_2s_infinite]"></span>
+              
+              <span className="relative z-10 text-cyan-400 group-hover:text-white transition-colors flex items-center gap-2 drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]">
+                CONTACT <Zap size={14} className="fill-current animate-pulse" />
+              </span>
+
+              <span className="absolute top-0 left-0 w-1.5 h-1.5 bg-cyan-400"></span>
+              <span className="absolute bottom-0 right-0 w-1.5 h-1.5 bg-cyan-400"></span>
+            </button>
+          </div>
+
+          <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
+        
+        {/* MOBILE MENU */}
+        {isMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-slate-950 border-b border-white/5 p-6 flex flex-col gap-6 animate-in slide-in-from-top-4">
+             <button onClick={() => navigateTo('about')} className="text-left text-xs font-bold text-slate-400 hover:text-cyan-400 transition-colors uppercase tracking-widest">About</button>
+             {['Services', 'Training', 'Projects', 'Contact'].map((item) => (
+              <button key={item} onClick={() => item === 'Contact' ? scrollTo('contact') : scrollTo(item.toLowerCase())} className="text-left text-xs font-bold text-slate-400 hover:text-cyan-400 transition-colors uppercase tracking-widest">{item}</button>
+            ))}
+          </div>
+        )}
+      </nav>
+
+      {currentPage === 'home' ? (
+        <>
+          {/* HERO SECTION */}
+          <section id="hero" className="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6">
+            <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 lg:gap-24 items-center">
+              <div className="space-y-8 z-10">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-black uppercase tracking-[0.2em] animate-pulse">
+                  <Zap size={12} /> Data is the New Currency
+                </div>
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[0.95] tracking-tighter">
+                  Decisions <br /> Backed by <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 italic">Trillions</span>
+                </h1>
+                <p className="text-lg text-slate-400 max-w-xl leading-relaxed font-light">
+                  We translate complex datasets into clear, actionable strategies. From government contracts to executive boardrooms, we empower leaders to see the future before it happens.
+                </p>
+                <div className="flex flex-wrap gap-4 pt-4">
+                  <button onClick={() => scrollTo('projects')} className="px-10 py-5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black uppercase tracking-widest text-xs rounded-lg transition-all flex items-center gap-2 shadow-[0_10px_30px_rgba(6,182,212,0.3)]">
+                    View Impact <ChevronRight size={18} />
+                  </button>
+                </div>
+              </div>
+
+              <div className="relative">
+                <ValueProjectionDashboard />
+              </div>
+            </div>
+          </section>
+
+          {/* SERVICES SECTION */}
+          <section id="services" className="py-24 px-6 relative overflow-hidden">
+            <div className="max-w-7xl mx-auto relative z-10">
+              <SectionTitle subtitle="Our Expertise">Intelligence As A Service</SectionTitle>
+              <div className="grid md:grid-cols-3 gap-6">
+                <Card icon={BarChart3} title="Data Analytics Consultation" description="We audit your organization's data infrastructure, identify leaks, and propose robust analytics frameworks." delay="0" />
+                <Card icon={BrainCircuit} title="Advanced Analytics Execution" description="We don't just advise; we build. From predictive modeling to dashboard creation, we handle the heavy lifting." delay="100" />
+                <Card icon={Database} title="Data-Backed Solutions" description="Custom software and tools tailored to your specific operational needs, ensuring every click contributes to a smarter ecosystem." delay="200" />
+              </div>
+            </div>
+          </section>
+
+          {/* TRAINING SECTION */}
+          <section id="training" className="py-24 px-6 bg-slate-900/50 border-y border-white/5">
+            <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+              <div>
+                <SectionTitle subtitle="Executive Education">Training The Decision Makers</SectionTitle>
+                <p className="text-slate-400 text-lg mb-8">Tools are useless without the vision to wield them. We bridge the gap between technical data and executive strategy.</p>
+                <div className="space-y-4">
+                  <div className={`p-6 rounded-xl cursor-pointer border transition-all ${activeTab === 'executives' ? 'bg-slate-800 border-cyan-500' : 'bg-slate-900/50 border-transparent hover:border-slate-700'}`} onClick={() => setActiveTab('executives')}>
+                    <h4 className="text-xl font-bold text-white flex items-center gap-3"><Users size={20} /> Boardroom Analytics</h4>
+                    {activeTab === 'executives' && <p className="text-slate-400 text-sm mt-2">Tailored for C-Suite executives to interpret high-level dashboards and forecast market trends.</p>}
+                  </div>
+                  <div className={`p-6 rounded-xl cursor-pointer border transition-all ${activeTab === 'management' ? 'bg-slate-800 border-cyan-500' : 'bg-slate-900/50 border-transparent hover:border-slate-700'}`} onClick={() => setActiveTab('management')}>
+                    <h4 className="text-xl font-bold text-white flex items-center gap-3"><TrendingUp size={20} /> Operational Strategy</h4>
+                    {activeTab === 'management' && <p className="text-slate-400 text-sm mt-2">Implementation of data loops to optimize efficiency and reduce waste.</p>}
+                  </div>
+                </div>
+              </div>
+              <div className="relative">
+                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=1000" alt="Training" className="rounded-2xl shadow-2xl border border-white/10 grayscale hover:grayscale-0 transition-all duration-700" />
+              </div>
+            </div>
+          </section>
+
+          {/* PROJECTS SECTION */}
+          <section id="projects" className="py-24 px-6">
+            <div className="max-w-7xl mx-auto">
+              <SectionTitle subtitle="Track Record">Proven Impact</SectionTitle>
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Enugu State Card */}
+                <div className="group relative rounded-[2.5rem] overflow-hidden aspect-[4/3] cursor-pointer border border-white/5 shadow-2xl">
+                  <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1000" alt="Enugu Government Contract" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent flex flex-col justify-end p-8 md:p-12">
+                    <div className="bg-emerald-500 text-slate-950 text-[10px] font-black px-4 py-2 rounded-full w-fit mb-4 uppercase tracking-[0.2em] shadow-lg shadow-emerald-500/20">GOVERNMENT CONTRACT</div>
+                    <h3 className="text-3xl md:text-4xl font-black text-white mb-2 leading-none uppercase tracking-tighter">Enugu State Government</h3>
+                    <p className="text-slate-300 mb-8 font-light max-w-sm">Optimizing public sector resource allocation and digital transformation.</p>
+                    <div className="flex items-center gap-3 text-cyan-400 font-bold uppercase text-xs tracking-widest group-hover:gap-5 transition-all">Read Case Study <ChevronRight size={18} /></div>
+                  </div>
+                </div>
+
+                {/* Innovation/Hackathon Card */}
+                <div className="group relative rounded-[2.5rem] overflow-hidden aspect-[4/3] cursor-pointer border border-white/5 shadow-2xl">
+                  <img 
+                    src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=1200" 
+                    alt="Campus Hackathon" 
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent flex flex-col justify-end p-8 md:p-12">
+                    <div className="bg-purple-600 text-white text-[10px] font-black px-4 py-2 rounded-full w-fit mb-4 uppercase tracking-[0.2em] shadow-lg shadow-purple-500/20">INNOVATION</div>
+                    <h3 className="text-3xl md:text-4xl font-black text-white mb-2 leading-none uppercase tracking-tighter">Campus Hackathon Pitch</h3>
+                    <p className="text-slate-300 mb-8 font-light max-w-sm">Revolutionary data-backed solution for educational institutions.</p>
+                    <div className="flex items-center gap-3 text-cyan-400 font-bold uppercase text-xs tracking-widest group-hover:gap-5 transition-all">View Prototype <ChevronRight size={18} /></div>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-0 mt-16 border-y border-slate-800 bg-slate-900/30">
+                <Stat value="100+" label="Data Points" />
+                <Stat value="15+" label="Executives Trained" />
+                <Stat value="1" label="State Govt. Contract" />
+                <Stat value="∞" label="Possibilities" />
+              </div>
+            </div>
+          </section>
+        </>
+      ) : (
+        <AboutPage />
+      )}
+
+      {/* CONTACT SECTION */}
+      <section id="contact" className="py-24 px-6 relative">
+        <div className="max-w-4xl mx-auto bg-slate-900/80 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-slate-800 shadow-2xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to <span className="text-cyan-400">Transform</span> Your Data?</h2>
+            <p className="text-slate-400">Secure your session for the next operational quarter.</p>
+          </div>
+          <form onSubmit={handleContactSubmit} className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <input required type="text" className="w-full bg-slate-950 border border-slate-800 rounded-xl p-5 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Name" />
+              <input required type="text" className="w-full bg-slate-950 border border-slate-800 rounded-xl p-5 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Organization" />
+            </div>
+            <input required type="email" className="w-full bg-slate-950 border border-slate-800 rounded-xl p-5 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Email" />
+            <textarea required rows="4" className="w-full bg-slate-950 border border-slate-800 rounded-xl p-5 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Message"></textarea>
+            
+            <div className="relative group rounded-xl overflow-hidden transition-all duration-500">
+               <div className="absolute inset-0 bg-slate-900 group-hover:bg-cyan-600 transition-colors duration-500"></div>
+               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_50px_rgba(34,211,238,0.8)]"></div>
+               <div className="absolute inset-[-150%] bg-[conic-gradient(from_0deg,transparent,#22d3ee,transparent,#22d3ee,transparent)] animate-[spin_3s_linear_infinite] opacity-40 group-hover:opacity-100 group-hover:animate-[spin_1.5s_linear_infinite]"></div>
+
+               <button 
+                type="submit" 
+                disabled={formStatus === 'sending'}
+                className="relative z-10 w-full py-7 px-8 flex items-center justify-center bg-transparent transition-all duration-300 rounded-xl"
+              >
+                <div className="absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:animate-[shimmer_1.2s_infinite]"></div>
+                
+                <span className="relative z-20 text-cyan-400 group-hover:text-white font-extrabold text-lg md:text-xl tracking-[0.4em] uppercase transition-all duration-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] antialiased">
+                  {formStatus === 'idle' ? 'SEND MESSAGE' : 'SYNCING...'}
+                </span>
+                
+                <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-cyan-400 group-hover:border-white transition-colors"></div>
+                <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-cyan-400 group-hover:border-white transition-colors"></div>
+                <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-cyan-400 group-hover:border-white transition-colors"></div>
+                <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-cyan-400 group-hover:border-white transition-colors"></div>
+              </button>
+            </div>
+            
+            {formStatus === 'success' && (
+              <div className="text-center text-cyan-400 font-mono text-xs animate-bounce mt-4 tracking-[0.3em]">
+                PROTOCOL ACTIVE. DATA UPLINK SECURED.
+              </div>
+            )}
+          </form>
+        </div>
+      </section>
+
+      <footer className="py-12 border-t border-slate-900 bg-slate-950 text-center">
+        <div className="flex items-center justify-center gap-2 mb-4">
+           <div className="w-6 h-6 bg-gradient-to-br from-cyan-400 to-blue-600 rounded flex items-center justify-center"><span className="font-bold text-white text-xs">S</span></div>
+            <span className="text-lg font-bold tracking-tight text-white uppercase">SAM TRILLION</span>
+        </div>
+        <p className="text-slate-600 text-sm">© {new Date().getFullYear()} Sam Trillion Consult. All Rights Reserved.</p>
+      </footer>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes shimmer {
+          0% { left: -100%; }
+          100% { left: 100%; }
+        }
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}} />
+    </div>
+  );
+}
